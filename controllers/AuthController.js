@@ -38,6 +38,7 @@ export const signup = async (req, res) => {
     phone: phone,
     address: address,
     about: about,
+    role: "user",
   });
 
   var confirmationToken = await jwt.sign(
