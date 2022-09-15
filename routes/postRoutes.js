@@ -6,6 +6,7 @@ import {
   getPostsForAllUser,
   getuserDetails,
   getUserPosts,
+  updateStatus,
 } from "../controllers/PostController.js";
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.post("/admin", getAdminPosts);
 router.post("/user", getUserPosts);
 router.post("/detail", getPostDetails);
 router.post("/userDetail", getuserDetails);
+router.put("/updateStatus", updateStatus);
 
 export const postRouter = router;

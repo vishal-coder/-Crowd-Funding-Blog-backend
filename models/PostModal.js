@@ -30,3 +30,10 @@ export function fetchPostdetails(Id) {
 export function fetchUserdetails(username) {
   return client.db("blog").collection("users").findOne({ username: username });
 }
+
+export function updatePostStatus(id, status) {
+  return client
+    .db("blog")
+    .collection("posts")
+    .updateOne({ _id: ObjectId(id) }, { $set: { status: status } });
+}

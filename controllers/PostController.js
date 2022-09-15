@@ -5,6 +5,7 @@ import {
   fetchPostForUser,
   fetchUserdetails,
   savePost,
+  updatePostStatus,
 } from "../models/PostModal.js";
 
 export const createPost = async (req, res) => {
@@ -142,5 +143,25 @@ export const getuserDetails = async (req, res) => {
     message: "User details fetched successfully",
     success: true,
     userDetails: user,
+  });
+};
+
+export const updateStatus = async (req, res) => {
+  const { id, status } = req.body;
+  console.log("get all post-inside updateStatus", id, status);
+  const result = await updatePostStatus(id, status);
+
+  console.log("get all post-inside updateStatus", result);
+  if (!result) {
+    return res.send({
+      message: "Error in updating status.Please try again later",
+      success: false,
+    });
+  }
+
+  res.send({
+    message: "status updated  successfully",
+    success: true,
+    result: result,
   });
 };
