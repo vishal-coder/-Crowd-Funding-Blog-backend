@@ -4,6 +4,7 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import { authRouter } from "./routes/auth.js";
 import http from "http";
+import { postRouter } from "./routes/postRoutes.js";
 
 const corsOptions = {
   origin: "*",
@@ -39,3 +40,4 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
