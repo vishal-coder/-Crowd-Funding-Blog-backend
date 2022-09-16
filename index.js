@@ -5,6 +5,7 @@ import { MongoClient } from "mongodb";
 import { authRouter } from "./routes/auth.js";
 import http from "http";
 import { postRouter } from "./routes/postRoutes.js";
+import { paymentrouter } from "./routes/PaymentRoutes.js";
 
 const corsOptions = {
   origin: "*",
@@ -41,3 +42,4 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
+app.use("/payment", paymentrouter);
