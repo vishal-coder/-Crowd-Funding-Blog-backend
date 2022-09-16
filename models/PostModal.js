@@ -37,3 +37,10 @@ export function updatePostStatus(id, status) {
     .collection("posts")
     .updateOne({ _id: ObjectId(id) }, { $set: { status: status } });
 }
+
+export function deletePostById(id) {
+  return client
+    .db("blog")
+    .collection("posts")
+    .deleteOne({ _id: ObjectId(id) });
+}

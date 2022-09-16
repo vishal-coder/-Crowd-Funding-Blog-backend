@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createPost,
+  deletePost,
   getAdminPosts,
   getPostDetails,
   getPostsForAllUser,
@@ -18,5 +19,6 @@ router.post("/user", getUserPosts);
 router.post("/detail", getPostDetails);
 router.post("/userDetail", getuserDetails);
 router.put("/updateStatus", updateStatus);
+router.delete("/delete", deletePost);
 
 export const postRouter = router;

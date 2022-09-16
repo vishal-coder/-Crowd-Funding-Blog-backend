@@ -1,4 +1,5 @@
 import {
+  deletePostById,
   fetchPostdetails,
   fetchPostForAllAdmin,
   fetchPostForAllUser,
@@ -18,7 +19,7 @@ export const createPost = async (req, res) => {
     name: name,
     username: username,
     amount: amount,
-    status: "New",
+    status: "Pending",
     createdOn: new Date(),
   };
   const result = await savePost(data);
@@ -163,5 +164,24 @@ export const updateStatus = async (req, res) => {
     message: "status updated  successfully",
     success: true,
     result: result,
+  });
+};
+
+export const deletePost = async (req, res) => {
+  const { id } = req.body;
+  console.log("get all post-inside deletePost", id);
+  const result = await deletePostById(id);
+
+  console.log("get all post-inside updateStatus", result);
+  if (!result) {
+    return res.send({
+      message: "Error in updating status.Please try again later",
+      success: false,
+    });
+  }
+
+  res.send({
+    message: "Post deleted  successfully",
+    success: true,
   });
 };
