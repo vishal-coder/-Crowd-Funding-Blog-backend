@@ -1,5 +1,7 @@
 import Razorpay from "razorpay";
 import {
+  fetchPostPaymentInfo,
+  paymentPostMapping,
   saveLinkPostPayment,
   savePaymentDetails,
 } from "../models/PaymentModal.js";
@@ -57,8 +59,15 @@ export const savePaymentInfo = async (req, res) => {
   };
 
   const payment = await savePaymentDetails(query);
-
   if (!payment) {
+    return res
+      .status(500)
+      .send({ success: false, message: "Internal server error occured" });
+  }
+
+  const result = await paymentPostMapping(postid, payment.insertedId);
+
+  if (!result) {
     return res
       .status(500)
       .send({ success: false, message: "some error occured" });
@@ -99,5 +108,25 @@ export const linkPostPayment = async (req, res) => {
     success: true,
     message: "payment details  added successfully",
     product: added,
+  });
+};
+
+export const getPostPaymentInfo = async (req, res) => {
+  console.log("Inside fetchPostPaymentInfo");
+  const { postId } = req.body;
+
+  const paymentData = await fetchPostPaymentInfo(postId);
+
+  if (!paymentData) {
+    res.send({
+      success: false,
+      message: "Failed to add payment details",
+    });
+    res.end();
+  }
+  res.send({
+    success: true,
+    message: "payment details  fetched successfully",
+    paymentData: paymentData[0].output,
   });
 };

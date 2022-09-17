@@ -20,6 +20,7 @@ export const createPost = async (req, res) => {
     username: username,
     amount: amount,
     status: "Pending",
+    paymentList: null,
     createdOn: new Date(),
   };
   const result = await savePost(data);
@@ -43,11 +44,6 @@ export const getPostsForAllUser = async (req, res) => {
   let result = null;
   console.log("get all post-usetType", usetType, username);
   result = await fetchPostForAllUser();
-  // if (usetType && usetType != "admin") {
-  //   result = await fetchPostByUsertype(usetType, username);
-  // } else {
-  //   result = await fetchPostByUsertype();
-  // }
 
   console.log("get all post-result", result);
   if (!result) {
