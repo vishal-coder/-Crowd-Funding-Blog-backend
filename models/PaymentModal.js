@@ -47,3 +47,25 @@ export function fetchPostPaymentInfo(postId) {
 
   return client.db("blog").collection("posts").aggregate(query).toArray();
 }
+
+export function fetchTotalByPostId(postId) {
+  const query = [
+    {
+      $match: {
+        postid: {
+          $in: [postId],
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$postid",
+        receivedAmount: {
+          $sum: { $toInt: "$amount" },
+        },
+      },
+    },
+  ];
+
+  return client.db("blog").collection("payments").aggregate(query).toArray();
+}

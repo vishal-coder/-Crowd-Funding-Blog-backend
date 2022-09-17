@@ -1,6 +1,7 @@
 import Razorpay from "razorpay";
 import {
   fetchPostPaymentInfo,
+  fetchTotalByPostId,
   paymentPostMapping,
   saveLinkPostPayment,
   savePaymentDetails,
@@ -124,9 +125,35 @@ export const getPostPaymentInfo = async (req, res) => {
     });
     res.end();
   }
+
+  let result = {};
+  result.paymentData = paymentData[0].output;
+  result.total = paymentData[0].amount;
+
   res.send({
     success: true,
     message: "payment details  fetched successfully",
-    paymentData: paymentData[0].output,
+    paymentData: result,
+  });
+};
+
+export const getTotalByPostId = async (req, res) => {
+  const { postId } = req.body;
+  console.log("Inside getTotalByPostId", postId);
+
+  const paymentData = await fetchTotalByPostId(postId);
+  console.log("Inside getTotalByPostId -result is", paymentData);
+
+  if (!paymentData) {
+    res.send({
+      success: false,
+      message: "Failed to get payment details",
+    });
+    res.end();
+  }
+  res.send({
+    success: true,
+    message: "payment details  fetched successfully",
+    paymentData: paymentData,
   });
 };
