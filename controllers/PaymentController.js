@@ -1,4 +1,5 @@
 import Razorpay from "razorpay";
+import { PaymentEventEmmiter } from "../EventMonitors/PaymentEventMonitor.js";
 import {
   fetchPostPaymentInfo,
   fetchTotalByPostId,
@@ -6,6 +7,8 @@ import {
   saveLinkPostPayment,
   savePaymentDetails,
 } from "../models/PaymentModal.js";
+import { client } from "../index.js";
+
 export const createPaymnetOrder = async (req, res) => {
   console.log("Inside createPaymnetOrder");
   const { amount } = req.body;
@@ -58,6 +61,14 @@ export const savePaymentInfo = async (req, res) => {
     createOn: new Date(),
     postid: postid,
   };
+  const pipeline = [
+    {
+      $match: {
+        operationType: "insert",
+      },
+    },
+  ];
+  PaymentEventEmmiter(client, 10000, pipeline);
 
   const payment = await savePaymentDetails(query);
   if (!payment) {
@@ -80,16 +91,6 @@ export const savePaymentInfo = async (req, res) => {
 export const linkPostPayment = async (req, res) => {
   console.log("Inside linkPostPayment");
   const { postid, username, amount, payementId } = req.body;
-
-  // const pipeline = [
-  //   {
-  //     $match: {
-  //       operationType: "insert",
-
-  //     },
-  //   },
-  // ];
-  // monitorOrdersUsingEventEmitter(client, 10000, "order created", pipeline);
 
   const added = await saveLinkPostPayment({
     username: username,

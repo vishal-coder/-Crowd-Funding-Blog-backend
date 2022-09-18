@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import Crypto from "crypto";
 import jwt from "jsonwebtoken";
+import { activeUsers } from "../index.js";
 import {
   activatateUser,
   getDBUserByEmail,
@@ -191,8 +192,13 @@ export const verifyEmail = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
   console.log("Inside handleLogoutUser");
-  const { token } = req.body;
+  const { username } = req.body;
   // TODO: list token as expired or blacklisted
+  activeUsers.forEach((user) => {
+    if (user.user.usrname == username) {
+      activeUsers.delete(user);
+    }
+  });
 
   return res.send({ success: true, message: "user logged out successfully" });
 };

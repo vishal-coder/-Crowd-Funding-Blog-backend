@@ -1,3 +1,4 @@
+import { newPostEmmiter } from "../EventMonitors/PostEventMonitor.js";
 import {
   deletePostById,
   fetchPostdetails,
@@ -8,10 +9,17 @@ import {
   savePost,
   updatePostStatus,
 } from "../models/PostModal.js";
+import { client } from "../index.js";
 
 export const createPost = async (req, res) => {
   const { title, description, category, username, name, amount } = req.body;
-
+  const pipeline = [
+    {
+      $match: {
+        operationType: "insert",
+      },
+    },
+  ];
   const data = {
     title: title,
     description: description,
@@ -24,6 +32,7 @@ export const createPost = async (req, res) => {
     createdOn: new Date(),
   };
   const result = await savePost(data);
+  newPostEmmiter(client, 60000, pipeline);
 
   if (!result) {
     return res.send({
