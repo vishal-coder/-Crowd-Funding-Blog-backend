@@ -28,7 +28,7 @@ export const createPost = async (req, res) => {
     username: username,
     amount: amount,
     status: "Pending",
-    paymentList: null,
+    paymentList: [],
     createdOn: new Date(),
   };
   const result = await savePost(data);
@@ -54,7 +54,7 @@ export const getPostsForAllUser = async (req, res) => {
   console.log("get all post-usetType", usetType, username);
   result = await fetchPostForAllUser();
 
-  console.log("get all post-result", result);
+  // console.log("get all post-result", result);
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",
@@ -72,7 +72,7 @@ export const getPostsForAllUser = async (req, res) => {
 export const getAdminPosts = async (req, res) => {
   const result = await fetchPostForAllAdmin();
 
-  console.log("get all post-inside getAdminPosts", result);
+  // console.log("get all post-inside getAdminPosts", result);
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",
@@ -91,7 +91,7 @@ export const getUserPosts = async (req, res) => {
   const { username } = req.body;
   const result = await fetchPostForUser(username);
 
-  console.log("get all post-inside getUserPosts", result);
+  // console.log("get all post-inside getUserPosts", result);
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",
@@ -111,7 +111,7 @@ export const getPostDetails = async (req, res) => {
   console.log("get all post-inside getPostDetails", _id);
   const result = await fetchPostdetails(_id);
 
-  console.log("get all post-inside getPostDetails", result);
+  // console.log("get all post-inside getPostDetails", result);
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",

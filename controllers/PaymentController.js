@@ -58,7 +58,7 @@ export const savePaymentInfo = async (req, res) => {
     razorpayPaymentId: razorpayPaymentId,
     signature: razorpaySignature,
     username: username,
-    createOn: new Date(),
+    createdOn: new Date(),
     postid: postid,
   };
   const pipeline = [
@@ -116,6 +116,13 @@ export const linkPostPayment = async (req, res) => {
 export const getPostPaymentInfo = async (req, res) => {
   console.log("Inside fetchPostPaymentInfo");
   const { postId } = req.body;
+  console.log("Inside fetchPostPaymentInfo", postId);
+  if (!postId) {
+    return res.send({
+      success: false,
+      message: "Failed to add payment details",
+    });
+  }
 
   const paymentData = await fetchPostPaymentInfo(postId);
 
