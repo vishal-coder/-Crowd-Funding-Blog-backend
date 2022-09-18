@@ -53,12 +53,7 @@ export const createPost = async (req, res) => {
 };
 
 export const getPostsForAllUser = async (req, res) => {
-  const { usetType, username } = req.body;
-  let result = null;
-  console.log("get all post-usetType", usetType, username);
-  result = await fetchPostForAllUser();
-
-  // console.log("get all post-result", result);
+  const result = await fetchPostForAllUser();
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",
@@ -76,7 +71,6 @@ export const getPostsForAllUser = async (req, res) => {
 export const getAdminPosts = async (req, res) => {
   const result = await fetchPostForAllAdmin();
 
-  // console.log("get all post-inside getAdminPosts", result);
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",
@@ -95,7 +89,6 @@ export const getUserPosts = async (req, res) => {
   const { username } = req.body;
   const result = await fetchPostForUser(username);
 
-  // console.log("get all post-inside getUserPosts", result);
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",
@@ -112,10 +105,8 @@ export const getUserPosts = async (req, res) => {
 
 export const getPostDetails = async (req, res) => {
   const { _id } = req.body;
-  console.log("get all post-inside getPostDetails", _id);
   const result = await fetchPostdetails(_id);
 
-  // console.log("get all post-inside getPostDetails", result);
   if (!result) {
     return res.send({
       message: "Error in getting post..Please try again later",
@@ -132,10 +123,8 @@ export const getPostDetails = async (req, res) => {
 
 export const getuserDetails = async (req, res) => {
   const { username } = req.body;
-  console.log("get all post-inside getuserDetails", username);
   const result = await fetchUserdetails(username);
 
-  console.log("get all post-inside getuserDetails", result);
   if (!result) {
     return res.send({
       message: "Error in getting details..Please try again later",
@@ -158,7 +147,7 @@ export const getuserDetails = async (req, res) => {
 
 export const updateStatus = async (req, res) => {
   const { id, status } = req.body;
-  console.log("get all post-inside updateStatus", id, status);
+
   if (status != "Rejected") {
     const pipeline = [
       {
@@ -172,7 +161,6 @@ export const updateStatus = async (req, res) => {
   }
   const result = await updatePostStatus(id, status);
 
-  console.log("get all post-inside updateStatus", result);
   if (!result) {
     return res.send({
       message: "Error in updating status.Please try again later",
@@ -189,10 +177,8 @@ export const updateStatus = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   const { id } = req.body;
-  console.log("get all post-inside deletePost", id);
   const result = await deletePostById(id);
 
-  console.log("get all post-inside updateStatus", result);
   if (!result) {
     return res.send({
       message: "Error in updating status.Please try again later",

@@ -12,8 +12,6 @@ import { client } from "../index.js";
 export const createPaymnetOrder = async (req, res) => {
   console.log("Inside createPaymnetOrder");
   const { amount } = req.body;
-  let order = null;
-  console.log(process.env.RZ_KEY_ID);
 
   var instance = new Razorpay({
     key_id: process.env.RZ_KEY_ID,
@@ -21,7 +19,7 @@ export const createPaymnetOrder = async (req, res) => {
   });
 
   var options = {
-    amount: amount * 100, // amount in the smallest currency unit
+    amount: amount * 100,
     currency: "INR",
     receipt: "order_rcptid_11",
   };
@@ -37,7 +35,7 @@ export const createPaymnetOrder = async (req, res) => {
         orderData: order,
       });
     }
-    console.log(order);
+    // console.log(order);
   });
 };
 
@@ -114,9 +112,8 @@ export const linkPostPayment = async (req, res) => {
 };
 
 export const getPostPaymentInfo = async (req, res) => {
-  console.log("Inside fetchPostPaymentInfo");
   const { postId } = req.body;
-  console.log("Inside fetchPostPaymentInfo", postId);
+
   if (!postId) {
     return res.send({
       success: false,
@@ -147,10 +144,7 @@ export const getPostPaymentInfo = async (req, res) => {
 
 export const getTotalByPostId = async (req, res) => {
   const { postId } = req.body;
-  console.log("Inside getTotalByPostId", postId);
-
   const paymentData = await fetchTotalByPostId(postId);
-  console.log("Inside getTotalByPostId -result is", paymentData);
 
   if (!paymentData) {
     res.send({
