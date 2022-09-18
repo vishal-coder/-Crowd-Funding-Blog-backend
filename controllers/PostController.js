@@ -1,4 +1,7 @@
-import { newPostEmmiter } from "../EventMonitors/PostEventMonitor.js";
+import {
+  newPostEmmiter,
+  updatePostEmmiter,
+} from "../EventMonitors/PostEventMonitor.js";
 import {
   deletePostById,
   fetchPostdetails,
@@ -20,6 +23,8 @@ export const createPost = async (req, res) => {
       },
     },
   ];
+  newPostEmmiter(client, 10000, pipeline);
+
   const data = {
     title: title,
     description: description,
@@ -32,7 +37,6 @@ export const createPost = async (req, res) => {
     createdOn: new Date(),
   };
   const result = await savePost(data);
-  newPostEmmiter(client, 60000, pipeline);
 
   if (!result) {
     return res.send({
@@ -155,6 +159,17 @@ export const getuserDetails = async (req, res) => {
 export const updateStatus = async (req, res) => {
   const { id, status } = req.body;
   console.log("get all post-inside updateStatus", id, status);
+  if (status != "Rejected") {
+    const pipeline = [
+      {
+        $match: {
+          operationType: "update",
+        },
+      },
+    ];
+
+    updatePostEmmiter(client, 10000, pipeline);
+  }
   const result = await updatePostStatus(id, status);
 
   console.log("get all post-inside updateStatus", result);
