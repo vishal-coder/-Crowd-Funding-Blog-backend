@@ -22,7 +22,6 @@ import {
  *
  */
 export const signup = async (req, res) => {
-  console.log("signup requested", req.body);
   const { firstname, lastname, phone, address, username, password, about } =
     req.body;
   const dBUserByEmail = await getDBUserByEmail({ username: username });
@@ -51,7 +50,7 @@ export const signup = async (req, res) => {
     { username: username },
     confirmationToken
   );
-  console.log("isInserted", isInserted);
+
   sendAccountVerificationMail(username, confirmationToken, firstname);
 
   res.status(200).send({

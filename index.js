@@ -47,8 +47,6 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", function (socket) {
-  // console.log("Made socket connection");
-
   socket.on("new user", function (user) {
     if (
       !activeUsers.has(
@@ -56,18 +54,15 @@ io.on("connection", function (socket) {
       )
     ) {
       activeUsers.add({ user: user, socketId: socket.id });
-      // console.log("New User Connected", activeUsers);
     }
   });
 
   socket.on("disconnect", () => {
-    // console.log("user disconnected");
     activeUsers.forEach((user) => {
       if (user.socketId == socket.id) {
         activeUsers.delete(user);
       }
     });
-    // console.log("User Disconnected", activeUsers);
   });
 });
 
